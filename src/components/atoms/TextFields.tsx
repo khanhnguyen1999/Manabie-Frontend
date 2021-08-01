@@ -27,6 +27,9 @@ const useStyles = makeStyles(() => ({
     border: '0',
     fontSize: 16,
     padding: '0 12px',
+    '& input': {
+      padding: '0 12px',
+    }
   },
 }));
 

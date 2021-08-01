@@ -1,6 +1,6 @@
 
 import React,{useState} from 'react';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory,Redirect } from 'react-router-dom';
 
 // material UI
 import { Grid } from '@material-ui/core';
@@ -12,14 +12,13 @@ import LockIcon from '@material-ui/icons/Lock';
 // atoms
 import TextFields from '../../components/atoms/TextFields';
 import ButtonBase from '../../components/atoms/ButtonBase';
-import TypographyBase from '../../components/atoms/TypographyBase';
 
 // styles
 import useStyles from './styles';
 
 import Service from '../../service'
 
-const Login = () => {
+const Login: React.FunctionComponent = () => {
   const classes = useStyles();
 
   const [form, setForm] = useState({
@@ -31,7 +30,7 @@ const Login = () => {
     const resp = await Service.signIn(form.userId, form.password)
     if(resp){
       localStorage.setItem('token', "true")
-      history.push('/todo')
+      return <Redirect push to="/todo" />
     }
   }
 
@@ -71,6 +70,7 @@ const Login = () => {
         </Grid>
         <Grid container>
           <ButtonBase
+            fullWidth={true}
             variant="contained"
             type="button"
             text="Login"

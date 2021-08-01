@@ -1,5 +1,5 @@
 import React, {useEffect, useReducer, useRef, useState} from 'react';
-import {RouteComponentProps} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 
 import reducer, {initialState} from '../../store/reducer';
 import {
@@ -19,15 +19,14 @@ import ButtonBase from '../../components/atoms/ButtonBase';
 type EnhanceTodoStatus = TodoStatus | 'ALL';
 
 
-const ToDoPage = ({history}: RouteComponentProps) => {
+const ToDo = () => {
     const [{todos}, dispatch] = useReducer(reducer, initialState);
     const [showing, setShowing] = useState<EnhanceTodoStatus>('ALL');
     const inputRef = useRef<HTMLInputElement>(null);
-
+    const history = useHistory()
     useEffect(()=>{
         (async ()=>{
             const resp = await Service.getTodos();
-
             dispatch(setTodos(resp || []));
         })()
     }, [])
@@ -122,4 +121,4 @@ const ToDoPage = ({history}: RouteComponentProps) => {
     );
 };
 
-export default ToDoPage;
+export default ToDo;
