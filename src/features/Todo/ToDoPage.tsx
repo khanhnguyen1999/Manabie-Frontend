@@ -26,9 +26,7 @@ export type IHistory = {
   };
 
 const ToDo: React.FunctionComponent = () => {
-    const todo:any = useSelector(todoSelector)
-    const todos = todo?.todos
-    console.log("todos ",todos)
+    const {todos}:any = useSelector(todoSelector)
     const dispatch = useDispatch()
     const [showing, setShowing] = useState<EnhanceTodoStatus>('ALL');
     const inputRef = useRef<HTMLInputElement>(null);
