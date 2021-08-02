@@ -1,7 +1,6 @@
 import React, {useEffect, useReducer, useRef, useState} from 'react';
 import {useHistory} from 'react-router-dom';
 
-import reducer, {initialState} from '../../store/reducer';
 import {
     setTodos,
     createTodo,
@@ -9,18 +8,28 @@ import {
     toggleAllTodos,
     deleteAllTodos,
     updateTodoStatus
-} from '../../store/actions';
+} from '../../store/todoActions';
 import Service from '../../service';
 import {TodoStatus} from '../../models/todo';
 import {isTodoCompleted} from '../../utils';
 
 import ButtonBase from '../../components/atoms/ButtonBase';
 
+import {useSelector,useDispatch} from 'react-redux'
+import {todoSelector} from '../../selectors/todo.selector'
+
 type EnhanceTodoStatus = TodoStatus | 'ALL';
 
+export type IHistory = {
+    push(url: string): void;
+    replace(url: string): void;
+  };
 
-const ToDo = () => {
-    const [{todos}, dispatch] = useReducer(reducer, initialState);
+const ToDo: React.FunctionComponent = () => {
+    const todo:any = useSelector(todoSelector)
+    const todos = todo?.todos
+    console.log("todos ",todos)
+    const dispatch = useDispatch()
     const [showing, setShowing] = useState<EnhanceTodoStatus>('ALL');
     const inputRef = useRef<HTMLInputElement>(null);
     const history = useHistory()
@@ -57,7 +66,7 @@ const ToDo = () => {
         dispatch(deleteAllTodos());
     }
 
-    const showTodos = todos.filter((todo) => {
+    const showTodos = todos.length>0 && todos?.filter((todo:any) => {
         switch (showing) {
             case TodoStatus.ACTIVE:
                 return todo.status === TodoStatus.ACTIVE;
@@ -68,7 +77,7 @@ const ToDo = () => {
         }
     });
 
-    const activeTodos = todos.reduce(function (accum, todo) {
+    const activeTodos = todos.reduce(function (accum:any, todo:any) {
         return isTodoCompleted(todo) ? accum : accum + 1;
     }, 0);
 
@@ -84,7 +93,7 @@ const ToDo = () => {
             </div>
             <div className="ToDo__list">
                 {
-                    showTodos.map((todo, index) => {
+                    showTodos.length>0 && showTodos.map((todo:any, index:number) => {
                         return (
                             <div key={index} className="ToDo__item">
                                 <input

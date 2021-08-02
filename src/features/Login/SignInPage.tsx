@@ -1,6 +1,9 @@
 
 import React,{useState} from 'react';
-import { useHistory,Redirect } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+
+import {useDispatch} from 'react-redux'
+import {actLoginSuccess,actLoginFail} from '../../store/authActions'
 
 // material UI
 import { Grid } from '@material-ui/core';
@@ -26,11 +29,16 @@ const Login: React.FunctionComponent = () => {
     password: ''
   });
   const history = useHistory();
+  const dispatch = useDispatch()
   const signIn = async () => {
-    const resp = await Service.signIn(form.userId, form.password)
-    if(resp){
-      localStorage.setItem('token', "true")
-      return <Redirect push to="/todo" />
+    try {
+      const resp = await Service.signIn(form.userId, form.password)
+      if(resp){
+        localStorage.setItem('token', "true")
+        dispatch(actLoginSuccess())
+      }
+    } catch (er) {
+      dispatch(actLoginFail())
     }
   }
 

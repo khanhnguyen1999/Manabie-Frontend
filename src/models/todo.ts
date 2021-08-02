@@ -10,3 +10,7 @@ export interface Todo {
   status?: TodoStatus
   created_date: string
 }
+
+export type IRootState = {
+  todo: Todo;
+};
