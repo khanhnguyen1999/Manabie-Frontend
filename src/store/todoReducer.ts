@@ -13,7 +13,7 @@ export interface AppState {
 }
 
 export const initialState: AppState = {
-  todos: [] 
+  todos: []
 }
 
 const todoReducer = (state = initialState, action: AppActions) => {
