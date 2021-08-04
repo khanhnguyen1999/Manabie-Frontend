@@ -1,4 +1,4 @@
-import React, {useEffect, useReducer, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {useHistory} from 'react-router-dom';
 
 import {
@@ -14,6 +14,7 @@ import {TodoStatus} from '../../models/todo';
 import {isTodoCompleted} from '../../utils';
 
 import ButtonBase from '../../components/atoms/ButtonBase';
+import TextFields from '../../components/atoms/TextFields'
 
 import {useSelector,useDispatch} from 'react-redux'
 import {todoSelector} from '../../selectors/todo.selector'
@@ -79,11 +80,12 @@ const ToDo: React.FunctionComponent = () => {
         return isTodoCompleted(todo) ? accum : accum + 1;
     }, 0);
 
+
     return (
         <div className="ToDo__container">
             <div className="Todo__creation">
-                <input
-                    ref={inputRef}
+                <TextFields
+                    inputRef={inputRef}
                     className="Todo__input"
                     placeholder="What need to be done?"
                     onKeyDown={onCreateTodo}
@@ -118,11 +120,11 @@ const ToDo: React.FunctionComponent = () => {
                     /> : <div/>
                 }
                 <div className="Todo__tabs">
-                    <ButtonBase bgColor="#2c3e50" textColor="#ecf0f1" handleSubmit={()=>setShowing('ALL')} text="All"/>
-                    <ButtonBase bgColor="#2c3e50" textColor="#ecf0f1" handleSubmit={()=>setShowing(TodoStatus.ACTIVE)} text="Active"/>
-                    <ButtonBase bgColor="#2c3e50" textColor="#ecf0f1" handleSubmit={()=>setShowing(TodoStatus.COMPLETED)} text="Completed"/>
+                    <ButtonBase handleSubmit={()=>setShowing('ALL')} text="All"/>
+                    <ButtonBase handleSubmit={()=>setShowing(TodoStatus.ACTIVE)} text="Active"/>
+                    <ButtonBase handleSubmit={()=>setShowing(TodoStatus.COMPLETED)} text="Completed"/>
                 </div>
-                <ButtonBase bgColor="#c0392b" handleSubmit={onDeleteAllTodo} text="Clear all todos"/>
+                <ButtonBase textColor="#ecf0f1" bgColor="#c0392b" handleSubmit={onDeleteAllTodo} text="Clear All Todos"/>
             </div>
         </div>
     );
