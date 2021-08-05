@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useHistory} from 'react-router-dom';
 
 import {
@@ -30,7 +30,7 @@ const ToDo: React.FunctionComponent = () => {
     const {todos}:any = useSelector(todoSelector)
     const dispatch = useDispatch()
     const [showing, setShowing] = useState<EnhanceTodoStatus>('ALL');
-    const inputRef = useRef<HTMLInputElement>(null);
+    const [value, setValue] = useState('');
     const history = useHistory()
     useEffect(()=>{
         (async ()=>{
@@ -40,11 +40,11 @@ const ToDo: React.FunctionComponent = () => {
     }, [])
 
     const onCreateTodo = async (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter' && inputRef.current) {
+        if (e.key === 'Enter' && value !== "") {
             try {
-                const resp = await Service.createTodo(inputRef.current.value);
+                const resp = await Service.createTodo(value);
                 dispatch(createTodo(resp));
-                inputRef.current.value = '';
+                setValue('')
             } catch (e) {
                 if (e.response.status === 401) {
                     history.push('/login')
@@ -79,15 +79,18 @@ const ToDo: React.FunctionComponent = () => {
     const activeTodos = todos.reduce(function (accum:any, todo:any) {
         return isTodoCompleted(todo) ? accum : accum + 1;
     }, 0);
-
+    
+    const onChangeTodo = (e: React.ChangeEvent<HTMLInputElement>)=>{
+        setValue(e.target.value)
+    }
 
     return (
         <div className="ToDo__container">
             <div className="Todo__creation">
                 <TextFields
-                    inputRef={inputRef}
                     className="Todo__input"
                     placeholder="What need to be done?"
+                    onChange={onChangeTodo}
                     onKeyDown={onCreateTodo}
                 />
             </div>

@@ -42,4 +42,12 @@
 - Run ```yarn start:fullstack``` in case you are doing a fullstack test, else run ```yarn start:frontend``` to start this project in development mode.
 - Sign in using username: `firstUser`, password: `example`
 
+
+### Candidate changed
+- Change the folder structure of the project.
+- Use Redux to manage global state.
+- Correct the errors of the project.
+- Optimize pages.
+
+
 Last updated: 2021/02/18
