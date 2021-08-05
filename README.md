@@ -50,4 +50,4 @@
 - Optimize pages.
 
 
-Last updated: 2021/02/18
+Last updated: 2021/08/05
